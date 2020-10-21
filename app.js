@@ -9,8 +9,110 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+let allEmployees = [];
 
+promptUser();
 
+function promptUser() {
+    inquirer
+        .prompt([
+            {
+                name: "name",
+                type: "input",
+                message: "What is the employee's name?"
+            },
+            {
+                name: "id",
+                type: "input",
+                message: "What is the employee's ID number?"
+            },
+            {
+                name: "email",
+                type: "input",
+                message: "What is the employee's Email?"
+            },
+            {
+                name: "role",
+                type: "list",
+                message: "What is the employee's role",
+                choices: ["Manager", "Engineer", "Intern"]
+            },
+        ])
+        .then(answersOne => {
+            if (answersOne.role === "Manager") { // Questions specific to managers
+                inquirer
+                    .prompt([
+                        {
+                            name: "officeNumber",
+                            type: "input",
+                            message: "What is the manager's office number?"
+                        },
+                        {
+                            name: "another",
+                            type: "list",
+                            message: "Would you like to add another employee?",
+                            choices: ["Yes", "No"]
+                        },
+                    ])
+                    .then(answersTwo => {
+                        const employee = new Manager(answersOne.name, answersOne.id, answersOne.email, answersTwo.officeNumber);
+                        if (answersTwo.another === "Yes") {
+                            promptUser();
+                        }
+                        allEmployees.push(employee);
+                        render(allEmployees);
+                    })
+            }
+            else if (answersOne.role === "Engineer") { // Questions specific to engineers
+                inquirer
+                    .prompt([
+                        {
+                            name: "github",
+                            type: "input",
+                            message: "What is the engineer's github profile name?"
+                        },
+                        {
+                            name: "another",
+                            type: "list",
+                            message: "Would you like to add another employee?",
+                            choices: ["Yes", "No"]
+                        },
+                    ])
+                    .then(answersTwo => {
+                        const employee = new Engineer(answersOne.name, answersOne.id, answersOne.email, answersTwo.github);
+                        if (answersTwo.another === "Yes") {
+                            promptUser();
+                        }
+                        allEmployees.push(employee);
+                        render(allEmployees);
+                    })
+            }
+            else { // Questions specific to interns
+                inquirer
+                    .prompt([
+                        {
+                            name: "school",
+                            type: "input",
+                            message: "What school did the intern attend?"
+                        },
+                        {
+                            name: "another",
+                            type: "list",
+                            message: "Would you like to add another employee?",
+                            choices: ["Yes", "No"]
+                        },
+                    ])
+                    .then(answersTwo => {
+                        const employee = new Intern(answersOne.name, answersOne.id, answersOne.email, answersTwo.school);
+                        if (answersTwo.another === "Yes") {
+                            promptUser();
+                        }
+                        allEmployees.push(employee);
+                        render(allEmployees);
+                    })
+            }
+        });
+};
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
