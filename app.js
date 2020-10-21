@@ -61,7 +61,7 @@ function promptUser() {
                             promptUser();
                         }
                         else {
-                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                            fs.writeFile(outputPath, render(allEmployees), 'utf-8', (err) => {
                                 if (err) throw err;
                                 console.log("File generated!")
                             });
@@ -91,7 +91,7 @@ function promptUser() {
                             promptUser();
                         }
                         else {
-                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                            fs.writeFile(outputPath, render(allEmployees), 'utf-8', (err) => {
                                 if (err) throw err;
                                 console.log("File generated!")
                             });
@@ -120,7 +120,7 @@ function promptUser() {
                             promptUser();
                         }
                         else {
-                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                            fs.writeFile(outputPath, render(allEmployees), 'utf-8', (err) => {
                                 if (err) throw err;
                                 console.log("File generated!")
                             });
