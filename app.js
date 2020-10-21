@@ -54,13 +54,19 @@ function promptUser() {
                             choices: ["Yes", "No"]
                         },
                     ])
-                    .then(answersTwo => {
+                    .then(async answersTwo => {
                         const employee = new Manager(answersOne.name, answersOne.id, answersOne.email, answersTwo.officeNumber);
+                        allEmployees.push(employee);
                         if (answersTwo.another === "Yes") {
                             promptUser();
                         }
-                        allEmployees.push(employee);
-                        render(allEmployees);
+                        else {
+                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                                if (err) throw err;
+                                console.log("File generated!")
+                            });
+                        }
+
                     })
             }
             else if (answersOne.role === "Engineer") { // Questions specific to engineers
@@ -78,13 +84,18 @@ function promptUser() {
                             choices: ["Yes", "No"]
                         },
                     ])
-                    .then(answersTwo => {
+                    .then(async answersTwo => {
                         const employee = new Engineer(answersOne.name, answersOne.id, answersOne.email, answersTwo.github);
+                        allEmployees.push(employee);
                         if (answersTwo.another === "Yes") {
                             promptUser();
                         }
-                        allEmployees.push(employee);
-                        render(allEmployees);
+                        else {
+                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                                if (err) throw err;
+                                console.log("File generated!")
+                            });
+                        }
                     })
             }
             else { // Questions specific to interns
@@ -102,17 +113,24 @@ function promptUser() {
                             choices: ["Yes", "No"]
                         },
                     ])
-                    .then(answersTwo => {
+                    .then(async answersTwo => {
                         const employee = new Intern(answersOne.name, answersOne.id, answersOne.email, answersTwo.school);
+                        allEmployees.push(employee);
                         if (answersTwo.another === "Yes") {
                             promptUser();
                         }
-                        allEmployees.push(employee);
-                        render(allEmployees);
-                    })
-            }
+                        else {
+                            fs.writeFile('team.html', render(allEmployees), 'utf-8', (err) => {
+                                if (err) throw err;
+                                console.log("File generated!")
+                            });
+                        }
+
+
+                    });
+            };
         });
-};
+    }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
